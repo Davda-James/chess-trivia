@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Arcade theme colors */
+    --background: 45 100% 95%; /* Warm cream #FFF8E6 */
+    --foreground: 0 0% 10%; /* Almost black for text */
+
+    --card: 45 80% 92%; /* Slightly darker cream for cards */
+    --card-foreground: 0 0% 10%;
+
+    --popover: 45 100% 95%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 45 100% 65%; /* Sunshine yellow #FFD84D */
+    --primary-foreground: 0 0% 10%; /* Dark text on yellow */
+
+    --secondary: 0 72% 51%; /* Deep red #D92A2A */
+    --secondary-foreground: 0 0% 100%; /* White text on red */
+
+    --muted: 45 60% 85%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 45 100% 55%; /* Brighter yellow for accents */
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 72% 51%; /* Use the red for destructive actions */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%; /* Dark borders for arcade feel */
+    --input: 0 0% 100%; /* White input backgrounds */
+    --ring: 45 100% 65%;
+
+    --radius: 1.25rem; /* 20px for rounded corners */
+    
+    /* Arcade-specific tokens */
+    --puzzle-bg: 0 72% 51%; /* Red puzzle area */
+    --success: 120 60% 50%; /* Green for success */
+    --success-foreground: 0 0% 100%;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Keep arcade theme consistent in dark mode */
+    --background: 25 20% 15%;
+    --foreground: 45 100% 95%;
+
+    --card: 25 20% 18%;
+    --card-foreground: 45 100% 95%;
+
+    --popover: 25 20% 15%;
+    --popover-foreground: 45 100% 95%;
+
+    --primary: 45 100% 65%;
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 0 72% 51%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 25 15% 25%;
+    --muted-foreground: 45 30% 65%;
+
+    --accent: 45 100% 55%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 30%;
+    --input: 25 20% 20%;
+    --ring: 45 100% 65%;
+    
+    --puzzle-bg: 0 72% 51%;
+    --success: 120 60% 50%;
+    --success-foreground: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bungee', cursive;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Bungee', cursive;
+  }
+}

@@ -16,11 +16,11 @@ This task consists of two parts:
 ### Requirements
 - An Anchor program deployed on **Devnet** or **Mainnet**.
 - The Anchor program must use a PDA (Program Derived Address).
-- At least one TypeScript **test** for each Anchor program instruction. These tests should cover both **happy** and **unhappy** (intentional error-triggering) scenarios.
+- At least one TypeScript **test** for each Anchor program instruction. These tests should cover both **happy** and **unhappy** (intentional error-triggering) scenarios.   
 - A simple **frontend** deployed using your preferred provider (for more info, check below).
 - A filled out **PROJECT_DESCRIPTION.md** file.
 
-### Ideas
+### Ideas   
 We highly recommend starting with something simple. Take time to think through your project and work on it in iterations. Do not try to implement everything at once!
 
 Below is a list of few ideas to get you started:
@@ -93,3 +93,5 @@ Let's say you are going to implement the Twitter dApp as the Solana Program. Her
 ### Need help?
 >[!TIP]
 >If you have any questions, feel free to reach out to us on [Discord](https://discord.gg/z3JVuZyFnp).
+
+origin  git@github.com:/School-of-Solana/program-Davda-James (fetch)
