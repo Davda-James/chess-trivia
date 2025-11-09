@@ -100,17 +100,51 @@ export const PuzzleCard = ({ onSolved }: PuzzleCardProps) => {
   // Fetch on-chain round for today's date
   useEffect(() => {
     let mounted = true;
+    let pollInterval: ReturnType<typeof setInterval> | null = null;
+    let initTimeout: ReturnType<typeof setTimeout> | null = null;
     async function fetchRound() {
       setLoadingOnchain(true);
       try {
         const now = new Date();
         const date = now.getUTCFullYear() * 10000 + (now.getUTCMonth() + 1) * 100 + now.getUTCDate();
+        // scheduled initialization: cron runs at 00:05 UTC (5 minutes after midnight)
+        const INIT_DELAY_MINUTES = 5;
+        const todayUtcMidnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 0));
+        const scheduledInitTs = todayUtcMidnight.getTime() + INIT_DELAY_MINUTES * 60_000;
+        const nowTs = now.getTime();
+        // If we're before the scheduled init time, wait until the cron runs instead of returning "no round"
+        if (nowTs < scheduledInitTs) {
+          // schedule a re-fetch just after the cron is expected to run
+          const delay = scheduledInitTs - nowTs + 2000; // small buffer (2s)
+          if (mounted) {
+            setFenState(null);
+            // don't treat this as an error; the round will be created by cron shortly
+          }
+          initTimeout = setTimeout(() => {
+            setFetchTrigger((t) => t + 1);
+          }, delay);
+          return;
+        }
         const dateBuf = Uint8Array.of((date >> 24) & 0xff, (date >> 16) & 0xff, (date >> 8) & 0xff, date & 0xff);
         const PROGRAM_ID = new PublicKey(deployed_contract_address);
   const [roundPda] = PublicKey.findProgramAddressSync([new TextEncoder().encode('round'), dateBuf], PROGRAM_ID);
         const acc = await connection.getAccountInfo(roundPda);
         if (!acc) {
+          // If the scheduled init time has already passed, start polling until the round appears
           if (mounted) setFenState(null);
+          // start polling every 30s to pick up the cron-initialized account
+          pollInterval = setInterval(async () => {
+            try {
+              const a = await connection.getAccountInfo(roundPda);
+              if (a && mounted) {
+                // round now exists — trigger a re-fetch to decode and update UI
+                setFetchTrigger((t) => t + 1);
+              }
+            } catch (e) {
+              // ignore transient RPC errors while polling
+              console.warn('Polling for round failed', e);
+            }
+          }, 30_000);
           return;
         }
         const decoded = decodeRoundAccount(new Uint8Array(acc.data));
@@ -170,7 +204,11 @@ export const PuzzleCard = ({ onSolved }: PuzzleCardProps) => {
       }
     }
     fetchRound();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      if (pollInterval) clearInterval(pollInterval);
+      if (initTimeout) clearTimeout(initTimeout);
+    };
   }, [connection, publicKey, fetchTrigger]);
 
   const validateUCIFormat = (input: string): boolean => {
@@ -358,7 +396,7 @@ export const PuzzleCard = ({ onSolved }: PuzzleCardProps) => {
       {/* Chess Board */}
       <div className="bg-secondary rounded-2xl sm:rounded-[2.25rem] p-4 sm:p-8 shadow-2xl border-4 border-border">
         <div className="bg-background/10 rounded-xl sm:rounded-2xl p-2 sm:p-4 backdrop-blur-sm">
-          <div className="max-w-full">
+          <div className="max-w-full flex justify-center">
             <Chessboard 
               id={1}
               position={fenState ?? fallbackFen}
