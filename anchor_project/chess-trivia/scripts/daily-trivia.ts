@@ -9,10 +9,20 @@ dotenv.config();
 
 async function main() {
   const RPC = "https://api.devnet.solana.com";
-  const ADMIN_KEYPAIR_JSON = process.env.ADMIN_KEYPAIR_JSON || '';
+  const adminB64 = process.env.ADMIN_KEYPAIR_B64 || '';
+  const ADMIN_KEYPAIR_JSON = adminB64 ? Buffer.from(adminB64, 'base64').toString('utf8') : '';
   const programId = new PublicKey('DyjfXwMRPQRTUzMt7RKgtXxba7rNo7VU7YZGrABMYft4'); 
 
-  const kp = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(ADMIN_KEYPAIR_JSON)));
+  if (!ADMIN_KEYPAIR_JSON) {
+    throw new Error('ADMIN_KEYPAIR_JSON or ADMIN_KEYPAIR_B64 must be set in the environment');
+  }
+  let kp: Keypair;
+  try {
+    kp = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(ADMIN_KEYPAIR_JSON)));
+  } catch (e) {
+    console.error('Failed to parse ADMIN_KEYPAIR JSON', e);
+    throw e;
+  }
   console.log('Loaded admin keypair:', kp.publicKey.toBase58());
   const provider = new anchor.AnchorProvider(
     new anchor.web3.Connection(RPC, 'confirmed'),
@@ -88,13 +98,12 @@ async function main() {
       return;
     }
   } catch (e) {
-    // If RPC fails, log and continue to avoid blocking automation.
     console.warn('Warning: failed to check round account existence via RPC, proceeding to initialize:', e);
   }
 
   // Call initializeRound
   const tx = await program.methods
-    .initializeRound(date, fen, Array.from(hash), 3) // attempt_limit default 3
+    .initializeRound(date, fen, Array.from(hash), 3) 
     .accounts({
       round: roundPda,
       admin: kp.publicKey,
@@ -102,5 +111,6 @@ async function main() {
     })
     .rpc();
   console.log('tx', tx);
+  console.log(roundPda.toBase58());
 }
 main();
