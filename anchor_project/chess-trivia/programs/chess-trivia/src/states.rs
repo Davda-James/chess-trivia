@@ -13,7 +13,7 @@ pub struct Config {
 pub struct Round {
     pub date: u32,
     #[max_len(128)]
-    pub fen: String,
+    pub fen: String,    
     pub solution_hash: [u8; 32],
     pub attempt_limit: u8,
     pub bump: u8,

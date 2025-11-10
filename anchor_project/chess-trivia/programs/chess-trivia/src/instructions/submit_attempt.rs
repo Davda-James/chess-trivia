@@ -19,7 +19,7 @@ pub struct SubmitAttempt<'info> {
 
     #[account(
         init_if_needed,
-        payer = user,
+        payer = user,   
         space = 8 + Certificate::INIT_SPACE,
         seeds = [b"certificate", user.key().as_ref(), round.date.to_be_bytes().as_ref()],
         bump

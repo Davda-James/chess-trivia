@@ -1,0 +1,44 @@
+name: NFT Mint Worker
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+  
+jobs:
+  mint-certificates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '21'
+          cache: 'yarn'
+          cache-dependency-path: './anchor_project/chess-trivia/yarn.lock'
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        working-directory: ./anchor_project/chess-trivia
+        
+      - name: Run mint worker (single pass)
+        env:
+          ADMIN_KEYPAIR_B64: ${{ secrets.ADMIN_KEYPAIR_B64 }}
+          RPC: ${{ secrets.RPC_URL || 'https://api.devnet.solana.com' }}
+          FILEBASE_ACCESS_KEY: ${{ secrets.FILEBASE_ACCESS_KEY }}
+          FILEBASE_ACCESS_KEY_SECRET: ${{ secrets.FILEBASE_ACCESS_KEY_SECRET }}
+          FILEBASE_BUCKET: ${{ secrets.FILEBASE_BUCKET }}
+          FILEBASE_S3_ENDPOINT: https://s3.filebase.com
+          MINT_WORKER_POLL_MS: 0
+        run: |
+          # Run the worker once (process all unminted certificates and exit)
+          timeout 480 npx ts-node ./scripts/mint_worker.ts || true
+        working-directory: ./anchor_project/chess-trivia
+        
+      - name: Notify on failure
+        if: failure()
+        run: echo "Mint worker failed! Check logs above."

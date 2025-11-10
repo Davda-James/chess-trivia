@@ -13,7 +13,6 @@ const puzzleData = JSON.parse(
 );
 
 describe("chess-trivia", () => {
-  // Configure the client to use the local cluster
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
@@ -559,6 +558,84 @@ describe("chess-trivia", () => {
       const attemptAccount = await program.account.userAttempt.fetch(userAttempt.pda);
       expect(attemptAccount.attempts).to.equal(1);
       // console.log("Wrong solution correctly rejected");
+    });
+  });
+
+  describe("Certificate mint registration", () => {
+    const testDate = 20251113;
+    const testFen = "8/8/8/8/8/8/8/4K2R w K - 0 1";
+    const correctSolution = "e1g1";
+    const solutionHash = computeSolutionHash(correctSolution);
+    let roundPda: PublicKey;
+    const testUser = Keypair.generate();
+
+    before(async () => {
+      await airdrop(testUser.publicKey, 2 * anchor.web3.LAMPORTS_PER_SOL);
+
+      const round = getRoundPda(testDate);
+      roundPda = round.pda;
+
+      await program.methods
+        .initializeRound(testDate, testFen, solutionHash, 3)
+        .accounts({
+          round: roundPda,
+          admin: admin.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .rpc();
+
+      // user solves to create certificate
+      const userAttempt = getUserAttemptPda(roundPda, testUser.publicKey);
+      const certificate = getCertificatePda(testUser.publicKey, testDate);
+
+      await program.methods
+        .attemptTrivia(correctSolution)
+        .accounts({
+          round: roundPda,
+          userAttempt: userAttempt.pda,
+          certificate: certificate.pda,
+          user: testUser.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([testUser])
+        .rpc();
+    });
+
+    it("Admin can register a mint for a certificate", async () => {
+      const certificate = getCertificatePda(testUser.publicKey, testDate);
+      const fakeMint = Keypair.generate().publicKey;
+
+      await program.methods
+        .registerCertificateMint(fakeMint)
+        .accounts({
+          certificate: certificate.pda,
+          config: configPda,
+          admin: admin.publicKey,
+        })
+        .rpc();
+
+      const certAccount = await program.account.certificate.fetch(certificate.pda);
+      expect(certAccount.mint.toString()).to.equal(fakeMint.toString());
+      console.log("Mint registered on certificate:", certAccount.mint.toString());
+    });
+
+    it("Non-admin cannot register a mint", async () => {
+      const certificate = getCertificatePda(testUser.publicKey, testDate);
+      const fakeMint2 = Keypair.generate().publicKey;
+      try {
+        await program.methods
+          .registerCertificateMint(fakeMint2)
+          .accounts({
+            certificate: certificate.pda,
+            config: configPda,
+            admin: testUser.publicKey,
+          })
+          .signers([testUser])
+          .rpc();
+        expect.fail("Should have thrown Unauthorized error");
+      } catch (err: any) {
+        expect(err.error.errorMessage).to.include("Unauthorized");
+      }
     });
   });
 });

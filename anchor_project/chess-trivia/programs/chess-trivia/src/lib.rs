@@ -24,4 +24,8 @@ pub mod chess_trivia {
     pub fn attempt_trivia(ctx: Context<SubmitAttempt>, attempt_preimage: String) -> Result<()> {
         submit_attempt(ctx, attempt_preimage)
     }
+
+    pub fn register_certificate_mint(ctx: Context<RegisterCertificateMint>, mint: Pubkey) -> Result<()> {
+        register_cert_mint(ctx, mint)
+    }
 }

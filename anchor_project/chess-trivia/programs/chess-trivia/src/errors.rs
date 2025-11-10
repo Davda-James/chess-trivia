@@ -12,4 +12,6 @@ pub enum CustomErrors {
     AttemptLimitExceeded,
     #[msg("Certificate already exists for this user and round")]
     CertificateAlreadyExists,
+    #[msg("Certificate already has a mint registered")]
+    CertificateAlreadyHasMint,
 }
