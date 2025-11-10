@@ -13,7 +13,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '21'
       - name: Install deps
         run: yarn install
         working-directory: ./anchor_project/chess-trivia
