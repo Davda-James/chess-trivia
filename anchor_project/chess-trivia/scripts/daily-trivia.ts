@@ -1,24 +1,30 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import * as anchor from '@coral-xyz/anchor';
 import { Keypair, PublicKey } from '@solana/web3.js';
 import * as crypto from 'crypto';
 import axios from 'axios';
 import { Chess } from 'chess.js';
-import dotenv from 'dotenv';
-dotenv.config();
+import fs from 'fs';
 
+const adminB64 = process.env.ADMIN_KEYPAIR_B64 || '';
+
+if (!adminB64) {
+  console.error('ADMIN_KEYPAIR_B64 must be set in the environment');
+  process.exit(1)
+}
+
+const adminJSON = JSON.parse(Buffer.from(adminB64, "base64").toString("utf-8"));
+const idl = JSON.parse(fs.readFileSync(__dirname + "/../idl/chess_trivia.json", "utf-8"));
 
 async function main() {
   const RPC = "https://api.devnet.solana.com";
-  const adminB64 = process.env.ADMIN_KEYPAIR_B64 || '';
-  const ADMIN_KEYPAIR_JSON = adminB64 ? Buffer.from(adminB64, 'base64').toString('utf8') : '';
   const programId = new PublicKey('DyjfXwMRPQRTUzMt7RKgtXxba7rNo7VU7YZGrABMYft4'); 
 
-  if (!ADMIN_KEYPAIR_JSON) {
-    throw new Error('ADMIN_KEYPAIR_JSON or ADMIN_KEYPAIR_B64 must be set in the environment');
-  }
   let kp: Keypair;
   try {
-    kp = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(ADMIN_KEYPAIR_JSON)));
+    kp = Keypair.fromSecretKey(Uint8Array.from(adminJSON));
   } catch (e) {
     console.error('Failed to parse ADMIN_KEYPAIR JSON', e);
     throw e;
@@ -30,7 +36,13 @@ async function main() {
     {}
   );
   anchor.setProvider(provider);
-  const program = anchor.workspace.ChessTrivia as anchor.Program;
+  let program: anchor.Program;
+  try {
+    program = new anchor.Program(idl as any, provider);
+  } catch (e) {
+    console.error('Failed to load IDL and construct program:', e);
+    process.exit(1);
+  }
 
   const res = await axios.get('https://lichess.org/api/puzzle/daily').catch(() => null);
   const json = res?.data ?? null;

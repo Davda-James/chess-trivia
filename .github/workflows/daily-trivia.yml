@@ -19,7 +19,7 @@ jobs:
         working-directory: ./anchor_project/chess-trivia
       - name: Run daily-trivia
         env:
-          ADMIN_KEYPAIR_JSON: ${{ secrets.ADMIN_KEYPAIR_B64 }}
+          ADMIN_KEYPAIR_B64: ${{ secrets.ADMIN_KEYPAIR_B64 }}
           RPC: https://api.devnet.solana.com
-        run: yarn ts-node ./anchor_project/chess-trivia/scripts/daily-trivia.ts
+        run: yarn ts-node ./scripts/daily-trivia.ts
         working-directory: ./anchor_project/chess-trivia

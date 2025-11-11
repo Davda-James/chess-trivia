@@ -2,7 +2,7 @@ name: NFT Mint Worker
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 */3 * * *'
   workflow_dispatch:
   
 jobs:

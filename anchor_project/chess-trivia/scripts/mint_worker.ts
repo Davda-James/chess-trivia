@@ -12,7 +12,7 @@ import { fromWeb3JsKeypair, fromWeb3JsPublicKey } from '@metaplex-foundation/umi
 import { base58 } from '@metaplex-foundation/umi/serializers';
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 
-const idlPath = path.resolve(__dirname, '..', 'target', 'idl', 'chess_trivia.json');
+const idlPath = path.resolve(__dirname, '..', 'idl', 'chess_trivia.json');
 const idlString = fs.readFileSync(idlPath, 'utf8');
 let idl;
 try{
