@@ -26,15 +26,6 @@ export const PuzzleCard = ({ onSolved }: PuzzleCardProps) => {
   const [solved, setSolved] = useState(false);
   const [certificateInfo, setCertificateInfo] = useState<{ owner?: string; mint?: string; meta?: string } | null>(null);
   const [certificatePdaState, setCertificatePdaState] = useState<string | null>(null);
-  const [showMintBanner, setShowMintBanner] = useState<boolean>(() => {
-    try {
-      if (typeof window === 'undefined') return true;
-      const v = window.localStorage.getItem('showMintBanner');
-      return v === null ? true : v === 'true';
-    } catch (e) {
-      return true;
-    }
-  });
 
   const { connection } = useConnection();
   const wallet = useWallet();
@@ -63,14 +54,6 @@ export const PuzzleCard = ({ onSolved }: PuzzleCardProps) => {
     const id = setInterval(() => setTimeLeft(computeTimeLeft()), 1000);
     return () => clearInterval(id);
   }, []);
-
-  useEffect(() => {
-    try {
-      if (typeof window !== 'undefined') window.localStorage.setItem('showMintBanner', String(showMintBanner));
-    } catch (e) {
-      // ignore
-    }
-  }, [showMintBanner]);
 
   // Helper: decode Anchor-style Round account (skipping 8-byte discriminator)
   function decodeRoundAccount(data: Uint8Array) {
@@ -353,21 +336,6 @@ export const PuzzleCard = ({ onSolved }: PuzzleCardProps) => {
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      {/* Dismissible banner about minting certificates coming soon */}
-      {showMintBanner && (
-        <div className="mb-4 p-3 rounded-lg bg-yellow-50 border border-yellow-200 flex items-center justify-between">
-          <div className="text-sm text-yellow-800 font-semibold">Minting certificates coming soon — stay tuned!</div>
-          <div>
-            <button
-              className="text-yellow-700 font-bold rounded px-2 py-1 hover:bg-yellow-100"
-              onClick={() => setShowMintBanner(false)}
-              aria-label="Dismiss"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
       {/* Puzzle Info Bar */}
         <div className="flex flex-wrap gap-4 justify-center sm:justify-between items-center text-sm sm:text-base">
           {/* <div className="flex items-center gap-2">
