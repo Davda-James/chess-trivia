@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Target, Clock, Zap } from 'lucide-react';
+import { Clock, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
