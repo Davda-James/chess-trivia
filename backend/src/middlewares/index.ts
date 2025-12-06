@@ -1,4 +1,3 @@
-import type { Request, Response, NextFunction } from 'express'
 import ENV  from '../config/env';
 
 const adminSecret = ENV.ADMIN_SECRET;
