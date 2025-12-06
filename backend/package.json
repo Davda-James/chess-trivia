@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.1.0",
+    "@prisma/client": "7",
+    "@solana/web3.js": "^1.98.4",
+    "@types/axios": "^0.14.4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "axios": "^1.13.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "nodemon": "^3.1.11",
+    "zod": "^4.1.13"
+  },
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'bunx tsx' src/index.ts",
+    "build": "bunx tsc --build",
+    "start": "bun run src/index.js"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.3",
+    "prisma": "^7.1.0"
+  },
+  "name": "backend",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

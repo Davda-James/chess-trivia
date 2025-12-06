@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String        @id @default(uuid())
+  wallet_address String        @unique
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+  solvers        Leaderboard[]
+}
+
+model Puzzle {
+  id         String        @id @default(uuid())
+  puzzle_id  String        @unique
+  pgn        String
+  rating     Int?
+  solution   String[]
+  created_at DateTime      @default(now())
+  updated_at DateTime      @updatedAt
+  solvers    Leaderboard[]
+}
+
+model Leaderboard {
+  id        String   @id @default(uuid())
+  puzzle_id String
+  user_id   String
+  tx_sig    String   @unique
+  solved_at DateTime @default(now())
+  user      User     @relation(fields: [user_id], references: [id])
+  puzzle    Puzzle   @relation(fields: [puzzle_id], references: [id])
+
+  @@unique([puzzle_id, user_id])
+}
