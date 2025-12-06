@@ -37,7 +37,7 @@ export type PuzzleSumAggregateOutputType = {
 export type PuzzleMinAggregateOutputType = {
   id: string | null
   puzzle_id: string | null
-  pgn: string | null
+  fen: string | null
   rating: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -46,7 +46,7 @@ export type PuzzleMinAggregateOutputType = {
 export type PuzzleMaxAggregateOutputType = {
   id: string | null
   puzzle_id: string | null
-  pgn: string | null
+  fen: string | null
   rating: number | null
   created_at: Date | null
   updated_at: Date | null
@@ -55,7 +55,7 @@ export type PuzzleMaxAggregateOutputType = {
 export type PuzzleCountAggregateOutputType = {
   id: number
   puzzle_id: number
-  pgn: number
+  fen: number
   rating: number
   solution: number
   created_at: number
@@ -75,7 +75,7 @@ export type PuzzleSumAggregateInputType = {
 export type PuzzleMinAggregateInputType = {
   id?: true
   puzzle_id?: true
-  pgn?: true
+  fen?: true
   rating?: true
   created_at?: true
   updated_at?: true
@@ -84,7 +84,7 @@ export type PuzzleMinAggregateInputType = {
 export type PuzzleMaxAggregateInputType = {
   id?: true
   puzzle_id?: true
-  pgn?: true
+  fen?: true
   rating?: true
   created_at?: true
   updated_at?: true
@@ -93,7 +93,7 @@ export type PuzzleMaxAggregateInputType = {
 export type PuzzleCountAggregateInputType = {
   id?: true
   puzzle_id?: true
-  pgn?: true
+  fen?: true
   rating?: true
   solution?: true
   created_at?: true
@@ -190,7 +190,7 @@ export type PuzzleGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type PuzzleGroupByOutputType = {
   id: string
   puzzle_id: string
-  pgn: string
+  fen: string
   rating: number | null
   solution: string[]
   created_at: Date
@@ -223,7 +223,7 @@ export type PuzzleWhereInput = {
   NOT?: Prisma.PuzzleWhereInput | Prisma.PuzzleWhereInput[]
   id?: Prisma.StringFilter<"Puzzle"> | string
   puzzle_id?: Prisma.StringFilter<"Puzzle"> | string
-  pgn?: Prisma.StringFilter<"Puzzle"> | string
+  fen?: Prisma.StringFilter<"Puzzle"> | string
   rating?: Prisma.IntNullableFilter<"Puzzle"> | number | null
   solution?: Prisma.StringNullableListFilter<"Puzzle">
   created_at?: Prisma.DateTimeFilter<"Puzzle"> | Date | string
@@ -234,7 +234,7 @@ export type PuzzleWhereInput = {
 export type PuzzleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   puzzle_id?: Prisma.SortOrder
-  pgn?: Prisma.SortOrder
+  fen?: Prisma.SortOrder
   rating?: Prisma.SortOrderInput | Prisma.SortOrder
   solution?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -248,7 +248,7 @@ export type PuzzleWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.PuzzleWhereInput | Prisma.PuzzleWhereInput[]
   OR?: Prisma.PuzzleWhereInput[]
   NOT?: Prisma.PuzzleWhereInput | Prisma.PuzzleWhereInput[]
-  pgn?: Prisma.StringFilter<"Puzzle"> | string
+  fen?: Prisma.StringFilter<"Puzzle"> | string
   rating?: Prisma.IntNullableFilter<"Puzzle"> | number | null
   solution?: Prisma.StringNullableListFilter<"Puzzle">
   created_at?: Prisma.DateTimeFilter<"Puzzle"> | Date | string
@@ -259,7 +259,7 @@ export type PuzzleWhereUniqueInput = Prisma.AtLeast<{
 export type PuzzleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   puzzle_id?: Prisma.SortOrder
-  pgn?: Prisma.SortOrder
+  fen?: Prisma.SortOrder
   rating?: Prisma.SortOrderInput | Prisma.SortOrder
   solution?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -277,7 +277,7 @@ export type PuzzleScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PuzzleScalarWhereWithAggregatesInput | Prisma.PuzzleScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Puzzle"> | string
   puzzle_id?: Prisma.StringWithAggregatesFilter<"Puzzle"> | string
-  pgn?: Prisma.StringWithAggregatesFilter<"Puzzle"> | string
+  fen?: Prisma.StringWithAggregatesFilter<"Puzzle"> | string
   rating?: Prisma.IntNullableWithAggregatesFilter<"Puzzle"> | number | null
   solution?: Prisma.StringNullableListFilter<"Puzzle">
   created_at?: Prisma.DateTimeWithAggregatesFilter<"Puzzle"> | Date | string
@@ -287,7 +287,7 @@ export type PuzzleScalarWhereWithAggregatesInput = {
 export type PuzzleCreateInput = {
   id?: string
   puzzle_id: string
-  pgn: string
+  fen: string
   rating?: number | null
   solution?: Prisma.PuzzleCreatesolutionInput | string[]
   created_at?: Date | string
@@ -298,7 +298,7 @@ export type PuzzleCreateInput = {
 export type PuzzleUncheckedCreateInput = {
   id?: string
   puzzle_id: string
-  pgn: string
+  fen: string
   rating?: number | null
   solution?: Prisma.PuzzleCreatesolutionInput | string[]
   created_at?: Date | string
@@ -309,7 +309,7 @@ export type PuzzleUncheckedCreateInput = {
 export type PuzzleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   puzzle_id?: Prisma.StringFieldUpdateOperationsInput | string
-  pgn?: Prisma.StringFieldUpdateOperationsInput | string
+  fen?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   solution?: Prisma.PuzzleUpdatesolutionInput | string[]
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -320,7 +320,7 @@ export type PuzzleUpdateInput = {
 export type PuzzleUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   puzzle_id?: Prisma.StringFieldUpdateOperationsInput | string
-  pgn?: Prisma.StringFieldUpdateOperationsInput | string
+  fen?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   solution?: Prisma.PuzzleUpdatesolutionInput | string[]
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -331,7 +331,7 @@ export type PuzzleUncheckedUpdateInput = {
 export type PuzzleCreateManyInput = {
   id?: string
   puzzle_id: string
-  pgn: string
+  fen: string
   rating?: number | null
   solution?: Prisma.PuzzleCreatesolutionInput | string[]
   created_at?: Date | string
@@ -341,7 +341,7 @@ export type PuzzleCreateManyInput = {
 export type PuzzleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   puzzle_id?: Prisma.StringFieldUpdateOperationsInput | string
-  pgn?: Prisma.StringFieldUpdateOperationsInput | string
+  fen?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   solution?: Prisma.PuzzleUpdatesolutionInput | string[]
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -351,7 +351,7 @@ export type PuzzleUpdateManyMutationInput = {
 export type PuzzleUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   puzzle_id?: Prisma.StringFieldUpdateOperationsInput | string
-  pgn?: Prisma.StringFieldUpdateOperationsInput | string
+  fen?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   solution?: Prisma.PuzzleUpdatesolutionInput | string[]
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -369,7 +369,7 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 export type PuzzleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   puzzle_id?: Prisma.SortOrder
-  pgn?: Prisma.SortOrder
+  fen?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   solution?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
@@ -383,7 +383,7 @@ export type PuzzleAvgOrderByAggregateInput = {
 export type PuzzleMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   puzzle_id?: Prisma.SortOrder
-  pgn?: Prisma.SortOrder
+  fen?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -392,7 +392,7 @@ export type PuzzleMaxOrderByAggregateInput = {
 export type PuzzleMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   puzzle_id?: Prisma.SortOrder
-  pgn?: Prisma.SortOrder
+  fen?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
@@ -441,7 +441,7 @@ export type PuzzleUpdateOneRequiredWithoutSolversNestedInput = {
 export type PuzzleCreateWithoutSolversInput = {
   id?: string
   puzzle_id: string
-  pgn: string
+  fen: string
   rating?: number | null
   solution?: Prisma.PuzzleCreatesolutionInput | string[]
   created_at?: Date | string
@@ -451,7 +451,7 @@ export type PuzzleCreateWithoutSolversInput = {
 export type PuzzleUncheckedCreateWithoutSolversInput = {
   id?: string
   puzzle_id: string
-  pgn: string
+  fen: string
   rating?: number | null
   solution?: Prisma.PuzzleCreatesolutionInput | string[]
   created_at?: Date | string
@@ -477,7 +477,7 @@ export type PuzzleUpdateToOneWithWhereWithoutSolversInput = {
 export type PuzzleUpdateWithoutSolversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   puzzle_id?: Prisma.StringFieldUpdateOperationsInput | string
-  pgn?: Prisma.StringFieldUpdateOperationsInput | string
+  fen?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   solution?: Prisma.PuzzleUpdatesolutionInput | string[]
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -487,7 +487,7 @@ export type PuzzleUpdateWithoutSolversInput = {
 export type PuzzleUncheckedUpdateWithoutSolversInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   puzzle_id?: Prisma.StringFieldUpdateOperationsInput | string
-  pgn?: Prisma.StringFieldUpdateOperationsInput | string
+  fen?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   solution?: Prisma.PuzzleUpdatesolutionInput | string[]
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -528,7 +528,7 @@ export type PuzzleCountOutputTypeCountSolversArgs<ExtArgs extends runtime.Types.
 export type PuzzleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   puzzle_id?: boolean
-  pgn?: boolean
+  fen?: boolean
   rating?: boolean
   solution?: boolean
   created_at?: boolean
@@ -540,7 +540,7 @@ export type PuzzleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type PuzzleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   puzzle_id?: boolean
-  pgn?: boolean
+  fen?: boolean
   rating?: boolean
   solution?: boolean
   created_at?: boolean
@@ -550,7 +550,7 @@ export type PuzzleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type PuzzleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   puzzle_id?: boolean
-  pgn?: boolean
+  fen?: boolean
   rating?: boolean
   solution?: boolean
   created_at?: boolean
@@ -560,14 +560,14 @@ export type PuzzleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
 export type PuzzleSelectScalar = {
   id?: boolean
   puzzle_id?: boolean
-  pgn?: boolean
+  fen?: boolean
   rating?: boolean
   solution?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type PuzzleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "puzzle_id" | "pgn" | "rating" | "solution" | "created_at" | "updated_at", ExtArgs["result"]["puzzle"]>
+export type PuzzleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "puzzle_id" | "fen" | "rating" | "solution" | "created_at" | "updated_at", ExtArgs["result"]["puzzle"]>
 export type PuzzleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   solvers?: boolean | Prisma.Puzzle$solversArgs<ExtArgs>
   _count?: boolean | Prisma.PuzzleCountOutputTypeDefaultArgs<ExtArgs>
@@ -583,7 +583,7 @@ export type $PuzzlePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     puzzle_id: string
-    pgn: string
+    fen: string
     rating: number | null
     solution: string[]
     created_at: Date
@@ -1014,7 +1014,7 @@ export interface Prisma__PuzzleClient<T, Null = never, ExtArgs extends runtime.T
 export interface PuzzleFieldRefs {
   readonly id: Prisma.FieldRef<"Puzzle", 'String'>
   readonly puzzle_id: Prisma.FieldRef<"Puzzle", 'String'>
-  readonly pgn: Prisma.FieldRef<"Puzzle", 'String'>
+  readonly fen: Prisma.FieldRef<"Puzzle", 'String'>
   readonly rating: Prisma.FieldRef<"Puzzle", 'Int'>
   readonly solution: Prisma.FieldRef<"Puzzle", 'String[]'>
   readonly created_at: Prisma.FieldRef<"Puzzle", 'DateTime'>

@@ -680,7 +680,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const PuzzleScalarFieldEnum = {
   id: 'id',
   puzzle_id: 'puzzle_id',
-  pgn: 'pgn',
+  fen: 'fen',
   rating: 'rating',
   solution: 'solution',
   created_at: 'created_at',

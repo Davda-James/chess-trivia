@@ -18,7 +18,7 @@ model User {
 model Puzzle {
   id         String        @id @default(uuid())
   puzzle_id  String        @unique
-  pgn        String
+  fen        String
   rating     Int?
   solution   String[]
   created_at DateTime      @default(now())
